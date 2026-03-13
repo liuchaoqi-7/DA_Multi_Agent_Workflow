@@ -89,62 +89,90 @@
 
 ```mermaid
 flowchart TD
-    %% 定义各层级容器与节点
-    subgraph FeishuBot["飞书机器人 (Webhook 触发)"]
+    %% 整体纵向布局
+    direction TB
+    linkStyle default stroke:#666,stroke-width:1.5px
+
+    %% 1. 飞书机器人 (Webhook 触发)
+    subgraph WebhookFeishu["飞书机器人 (Webhook 触发)"]
         direction LR
-        trigger_msg["用户提问"]
+        FeishuTrigger["用户提问"]
+        %% 强制居中
+        FeishuTrigger:::center-node
     end
-    
+
+    %% 2. AI Agent (LangChain + Qwen)
     subgraph AIAgent["AI Agent (LangChain + Qwen)"]
         direction LR
-        SystemPrompt["System Prompt<br/>(DDL Schema)"]
-        Text2SQL["Text-to-SQL Generator"]
-        MemoryBuffer["Memory Buffer<br/>(多轮对话)"]
+        System["System Prompt<br/>(DDL Schema)"]:::center-node
+        Text2SQL["Text-to-SQL Generator"]:::center-node
+        Memory["Memory Buffer<br/>(多轮对话)"]:::center-node
+        
+        %% 水平等距排列（关键：空节点占位实现居中）
+        System --- Text2SQL --- Memory
     end
-    
+
+    %% 3. MySQL Tool (执行查询)
     subgraph MySQLTool["MySQL Tool (执行查询)"]
         direction LR
-        Table1["dwd_电商数据_宽表<br/>(全渠道订单)"]
-        Table2["dwd_千川素材h<br/>(投放素材)"]
-        Table3["ads_直播素材_m<br/>(直播分钟数据)"]
+        Table1["dwd_电商数据_宽表<br/>(全渠道订单)"]:::center-node
+        Table2["dwd_千川素材h<br/>(投放素材)"]:::center-node
+        Table3["ads_直播素材_m<br/>(直播分钟数据)"]:::center-node
+        
+        %% 水平等距排列
+        Table1 --- Table2 --- Table3
     end
-    
+
+    %% 4. 智能输出处理 (Code Node)
     subgraph OutputProcess["智能输出处理 (Code Node)"]
         direction LR
-        TextAnalysis["文本分析<br/>(Markdown)"]
-        ChartJSON["图表 JSON<br/>(QuickChart)"]
-        ExcelData["Excel 数据<br/>(表格组件)"]
+        TextAnalyze["文本分析<br/>(Markdown)"]:::center-node
+        ChartJson["图表 JSON<br/>(QuickChart)"]:::center-node
+        ExcelData["Excel 数据<br/>(表格组件)"]:::center-node
+        
+        %% 水平等距排列
+        TextAnalyze --- ChartJson --- ExcelData
     end
-    
+
+    %% 5. 飞书消息卡片 (交互式推送)
     subgraph FeishuCard["飞书消息卡片 (交互式推送)"]
         direction LR
-        CardContent["📊 智能数据中台洞察<br/>【分析结论】本月抖店GMV为 xxx 万元...<br/>[图表图片]<br/>[数据明细表格] (支持翻页)"]
+        CardContent["📊 智能数据中台洞察
+┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+【分析结论】
+本月抖店GMV为 xxx 万元，环比增长 xx%...
+┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+[图表图片]
+┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+[数据明细表格] (支持翻页)"]:::center-node
     end
-    
-    %% 流程连线
-    FeishuBot --> trigger_msg --> AIAgent
-    AIAgent --> Text2SQL --> MySQLTool
-    MySQLTool --> Table1 & Table2 & Table3 --> OutputProcess
-    OutputProcess --> TextAnalysis & ChartJSON & ExcelData --> FeishuCard
-    
-    %% 样式美化（和你之前的配色逻辑一致）
-    style FeishuBot fill:#f5f5f5,stroke:#333,stroke-width:2px
-    style AIAgent fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
-    style MySQLTool fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
-    style OutputProcess fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px
-    style FeishuCard fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    
-    %% 节点内部样式
-    style SystemPrompt fill:#f0f8ff,stroke:#0288d1
-    style Text2SQL fill:#f0f8ff,stroke:#0288d1
-    style MemoryBuffer fill:#f0f8ff,stroke:#0288d1
-    style Table1 fill:#f9fff9,stroke:#2e7d32
-    style Table2 fill:#f9fff9,stroke:#2e7d32
-    style Table3 fill:#f9fff9,stroke:#2e7d32
-    style TextAnalysis fill:#fef0f8,stroke:#8e24aa
-    style ChartJSON fill:#fef0f8,stroke:#8e24aa
-    style ExcelData fill:#fef0f8,stroke:#8e24aa
-    style CardContent fill:#fff8f0,stroke:#f57c00
+
+    %% 主流程连线（纵向居中）
+    WebhookFeishu -.->|用户提问| AIAgent
+    AIAgent -.->|生成的 SQL| MySQLTool
+    MySQLTool -.->|查询结果| OutputProcess
+    OutputProcess -.->|推送结果| FeishuCard
+
+    %% 样式定义（沿用你的配色体系）
+    classDef center-node text-align:center, padding:8px, margin:0 auto;
+    style WebhookFeishu fill:#f5f5f5,stroke:#333,stroke-width:2px, text-align:center;
+    style AIAgent fill:#e1f5fe,stroke:#0288d1,stroke-width:2px, text-align:center;
+    style MySQLTool fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px, text-align:center;
+    style OutputProcess fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px, text-align:center;
+    style FeishuCard fill:#fff3e0,stroke:#f57c00,stroke-width:2px, text-align:center;
+
+    %% 内部模块样式
+    style System fill:#ffffff,stroke:#555,rounded:10px;
+    style Text2SQL fill:#ffffff,stroke:#555,rounded:10px;
+    style Memory fill:#ffffff,stroke:#555,rounded:10px;
+    style Table1 fill:#ffffff,stroke:#555,rounded:10px;
+    style Table2 fill:#ffffff,stroke:#555,rounded:10px;
+    style Table3 fill:#ffffff,stroke:#555,rounded:10px;
+    style TextAnalyze fill:#ffffff,stroke:#555,rounded:10px;
+    style ChartJson fill:#ffffff,stroke:#555,rounded:10px;
+    style ExcelData fill:#ffffff,stroke:#555,rounded:10px;
+    style CardContent fill:#ffffff,stroke:#555,rounded:10px, width:400px;
+    style FeishuTrigger fill:#ffffff,stroke:#555,rounded:10px;
 ```
 
 ### 核心能力
