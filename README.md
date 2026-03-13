@@ -647,6 +647,72 @@ done
 }
 ```
 
+### n8n 节点逻辑映射表
+
+#### 主工作流节点映射 (Master Workflow)
+
+| 节点名称 | 节点类型 | 功能说明 | 关键参数 |
+|----------|----------|----------|----------|
+| `Manual Trigger` | `n8n-nodes-base.manualTrigger` | 手动触发入口 | - |
+| `Schedule Trigger` | `n8n-nodes-base.scheduleTrigger` | 定时触发（每日02:00） | `cron: "0 2 * * *"` |
+| `Switch` | `n8n-nodes-base.switch` | 模式选择（全量/增量） | `conditions: mode` |
+| `Execute Workflow` | `n8n-nodes-base.executeWorkflow` | 调用子工作流 | `workflowId: "sub-workflow-id"` |
+| `Wait` | `n8n-nodes-base.wait` | 等待所有采集完成 | `amount: 1, unit: hours` |
+| `Error Trigger` | `n8n-nodes-base.errorTrigger` | 错误兜底触发器 | - |
+
+#### API 数据采集子工作流节点映射
+
+| 节点名称 | 节点类型 | 执行脚本 | 超时 | 并发 |
+|----------|----------|----------|------|------|
+| `抖店订单采集` | `n8n-nodes-base.executeCommand` | `python API_data_collect/order_D/main.py` | 7200s | 并行 |
+| `小红书订单采集` | `n8n-nodes-base.executeCommand` | `python API_data_collect/order_H/main.py` | 7200s | 并行 |
+| `微信订单采集` | `n8n-nodes-base.executeCommand` | `python API_data_collect/order_W/main.py` | 7200s | 并行 |
+| `千川素材采集` | `n8n-nodes-base.executeCommand` | `python API_data_collect/qc_material/main.py` | 3600s | 并行 |
+
+#### 爬虫数据采集子工作流节点映射
+
+| 节点名称 | 节点类型 | 执行脚本 | 超时 | 执行策略 |
+|----------|----------|----------|------|----------|
+| `达人榜单采集` | `n8n-nodes-base.executeCommand` | `python web_crawler/luopan_rank/rank_kol.py` | 10800s | **串行** |
+| `商品榜单采集` | `n8n-nodes-base.executeCommand` | `python web_crawler/luopan_rank/rank_product.py` | 10800s | **串行** |
+| `内容榜单采集` | `n8n-nodes-base.executeCommand` | `python web_crawler/luopan_rank/rank_content.py` | 10800s | **串行** |
+| `搜索榜单采集` | `n8n-nodes-base.executeCommand` | `python web_crawler/luopan_rank/rank_serach.py` | 10800s | **串行** |
+| `店铺榜单采集` | `n8n-nodes-base.executeCommand` | `python web_crawler/luopan_rank/rank_shop.py` | 10800s | **串行** |
+
+#### SQL 建模子工作流节点映射
+
+| 节点名称 | 节点类型 | 执行命令 | 超时 |
+|----------|----------|----------|------|
+| `执行SQL建表` | `n8n-nodes-base.executeCommand` | `for f in *.sql; do mysql ... < "$f"; done` | 1800s |
+
+#### 飞书同步子工作流节点映射
+
+| 节点名称 | 节点类型 | 执行脚本 | 同步方向 | 并发 |
+|----------|----------|----------|----------|------|
+| `主播排期同步` | `n8n-nodes-base.executeCommand` | `python mysql_syn_feishu/sync_live_author_schedule.py` | 飞书→MySQL | 并行 |
+| `达人维度同步` | `n8n-nodes-base.executeCommand` | `python mysql_syn_feishu/sync_order_kol.py` | MySQL→飞书 | 并行 |
+| `商品维度同步` | `n8n-nodes-base.executeCommand` | `python mysql_syn_feishu/sync_order_product.py` | MySQL→飞书 | 并行 |
+| `达人榜单同步` | `n8n-nodes-base.executeCommand` | `python mysql_syn_feishu/sync_rank_kol.py` | MySQL→飞书 | 并行 |
+
+#### 数据分析 Agent 节点映射
+
+| 节点名称 | 节点类型 | 功能说明 | 关键配置 |
+|----------|----------|----------|----------|
+| `Webhook` | `n8n-nodes-base.webhook` | 飞书机器人入口 | `httpMethod: POST, path: feishu-bot` |
+| `If` | `n8n-nodes-base.if` | URL验证判断 | `conditions: type == url_verification` |
+| `Respond to Webhook` | `n8n-nodes-base.respondToWebhook` | 返回challenge | `responseBody: {challenge}` |
+| `AI Agent` | `@n8n/n8n-nodes-langchain.agent` | LangChain Agent | `systemMessage: DDL Schema...` |
+| `OpenAI Chat Model` | `@n8n/n8n-nodes-langchain.lmChatOpenAi` | 千问大模型 | `model: qwen-plus` |
+| `Simple Memory` | `@n8n/n8n-nodes-langchain.memoryBufferWindow` | 多轮对话记忆 | `sessionKey: chat_id` |
+| `Execute a SQL query` | `n8n-nodes-base.mySqlTool` | MySQL查询工具 | `query: {{ $fromAI('sql') }}` |
+| `分离文本和图表` | `n8n-nodes-base.code` | 解析AI输出 | 提取 Markdown/JSON/Excel |
+| `图片生成判断` | `n8n-nodes-base.if` | 判断是否需要生成图表 | `hasChart == true` |
+| `生成图片` | `n8n-nodes-base.httpRequest` | 调用QuickChart API | `url: https://quickchart.io/chart` |
+| `上传图片` | `n8n-nodes-base.httpRequest` | 上传图片到飞书 | `url: https://open.feishu.cn/open-apis/im/v1/images` |
+| `飞书推送数据分析结果` | `n8n-nodes-feishu-lite.feishuNode` | 推送消息卡片 | `msg_type: interactive` |
+| `错误兜底` | `n8n-nodes-base.errorTrigger` | 错误触发器 | - |
+| `飞书推送错误信息` | `n8n-nodes-feishu-lite.feishuNode` | 推送告警卡片 | `template: red` |
+
 ### 执行时间规划
 
 | 时间 | 任务 | 执行方式 | 预计时长 |
@@ -732,7 +798,7 @@ syncer.sync(full_sync=False)  # 增量同步
 |----------|----------|----------|
 | API 采集失败 | 指数退避重试 | 3 次 |
 | 爬虫采集失败 | 记录日志，继续执行 | 2 次 |
-| SQL 建表失败 | 记录失败 SQL，继续执行其他 | 0 次 |
+| SQL 建表失败 | 记录失败 SQL，继续执行其他 | 3 次 |
 | 飞书同步失败 | 重试后发送告警 | 2 次 |
 
 ---
@@ -769,33 +835,57 @@ syncer.sync(full_sync=False)  # 增量同步
 ### 安装依赖
 
 ```bash
-pip install requests pandas sqlalchemy pymysql tqdm openai whisper
-```
-
-### 1. 克隆项目
-
-```bash
+# 克隆项目
 git clone https://github.com/<YOUR_USERNAME>/n8n-Multi_Agent_Workflow.git
 cd n8n-Multi_Agent_Workflow
+
+# 安装 Python 依赖
+pip install -r requirements.txt
 ```
 
-### 2. 配置环境变量
+### 配置环境变量
 
 ```bash
+# 复制环境变量模板
 cp .env.example .env
+
 # 编辑 .env 文件，填入真实凭证
+vim .env
 ```
 
-### 3. 启动 n8n
+**`.env` 文件配置说明**：
+
+| 配置分类 | 必填项 | 说明 |
+|----------|--------|------|
+| **数据库** | `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` | MySQL 连接配置 |
+| **抖店 API** | `DOUDIAN_APP_KEY`, `DOUDIAN_APP_SECRET` | 抖店开放平台凭证 |
+| **小红书 API** | `XHS_APP_KEY`, `XHS_APP_SECRET`, `XHS_ACCESS_TOKEN` | 小红书开放平台凭证 |
+| **微信 API** | `WEIXIN_APP_ID`, `WEIXIN_APP_SECRET` | 微信开放平台凭证 |
+| **千川 API** | `QIANCHUAN_APP_ID`, `QIANCHUAN_APP_SECRET`, `QIANCHUAN_REFRESH_TOKEN` | 巨量千川凭证 |
+| **飞书 API** | `FEISHU_APP_ID`, `FEISHU_APP_SECRET`, `FEISHU_APP_TOKEN` | 飞书开放平台凭证 |
+| **大模型 API** | `DASHSCOPE_API_KEY` | 通义千问 API Key |
+| **n8n** | - | n8n 服务配置（默认即可） |
+
+### 启动 n8n
 
 ```bash
 cd n8n_setting
 docker-compose up -d
 ```
 
-### 4. 导入工作流
+访问 `http://localhost:5678` 进入 n8n 界面。
 
-访问 `http://localhost:5678`，导入 `n8n_Workflow/` 目录下的 JSON 文件。
+### 导入工作流
+
+1. 打开 n8n 界面
+2. 点击 **"Import from File"**
+3. 选择 `n8n_Workflow/` 目录下的 JSON 文件：
+   - `数据中台 - 完整ETL工作流Agent.json` - 主 ETL 工作流
+   - `数据分析Agent.json` - 🤖 AI 数据分析 Agent
+   - `[ETL-WeChat] 订单+售后+结算同步.json` - 微信数据采集
+   - `[MySQL-Feishu] 通用Sync逻辑.json` - 飞书同步逻辑
+4. 配置环境变量和凭证
+5. 点击 **"Execute Workflow"** 测试运行
 
 ---
 
