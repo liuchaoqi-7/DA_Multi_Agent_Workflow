@@ -8,58 +8,43 @@
 
 ---
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   Master Workflow (主调度器)                       │
-│                                                                    │
-│  触发方式: 每日凌晨 02:00 或手动触发                                │
-│                                                                    │
-│  ┌───────────┐    ┌───────────┐    ┌───────────┐    ┌───────────┐  │
-│  │  Switch   │───▶│   Wait    │───▶│    SQL    │───▶│  Notify   │  │
-│  │  （模式）  │    │  (等待)    │    │  (建模)    │    │  (通知)    │  │
-│  └─────┬─────┘    └─────┬─────┘    └─────┬─────┘    └───────────┘  │
-│        │                │                │                          │
-│        ▼                ▼                ▼                          │
-│  ┌───────────┐    ┌───────────┐    ┌───────────┐                   │
-│  │ Sub-WF 1  │    │ Sub-WF 2  │    │ Sub-WF 4  │                   │
-│  │ API采集    │    │ 爬虫采集   │    │ 飞书同步   │                   │
-│  │ (并行)     │    │ (串行)     │    │ (并行)     │                   │
-│  └───────────┘    └───────────┘    └───────────┘                   │
-└────────────────────────────────────────────────────────────────────┘
-```
-
-
 ```mermaid
 flowchart TD
-    subgraph MasterWorkflow["Master Workflow（主调度器）"]
-        direction LR
-        trigger["触发方式：每日凌晨 02:00 或手动触发"]
+    %% 定义主容器
+    subgraph MasterWorkflow["Master Workflow (主调度器)"]
+        direction LR  %% 整体从左到右布局
+        %% 顶部说明
+        trigger["触发方式: 每日凌晨 02:00 或手动触发"]
+        
+        %% 主流程节点
         Switch["Switch（模式）"]
-        Wait["Wait（等待）"]
-        SQL["SQL（建模）"]
-        Notify["Notify（通知）"]
-        SubWF1["Sub-WF 1<br/>API采集（并行）"]
-        SubWF2["Sub-WF 2<br/>爬虫采集（串行）"]
-        SubWF4["Sub-WF 4<br/>飞书同步（并行）"]
-
+        Wait["Wait (等待)"]
+        SQL["SQL (建模)"]
+        Notify["Notify (通知)"]
+        
+        %% 子流程节点
+        SubWF1["Sub-WF 1<br/>API采集 (并行)"]
+        SubWF2["Sub-WF 2<br/>爬虫采集 (串行)"]
+        SubWF4["Sub-WF 4<br/>飞书同步 (并行)"]
+        
+        %% 流程连线
         trigger --> Switch
         Switch --> Wait
         Wait --> SQL
         SQL --> Notify
-
+        
+        %% 子流程分支
         Switch --> SubWF1
         Wait --> SubWF2
         SQL --> SubWF4
     end
-
-    style MasterWorkflow fill:#24292e,stroke:#fff,stroke-width:2px,color:#fff
-    style Switch fill:#373e47,stroke:#fff,color:#fff
-    style Wait fill:#373e47,stroke:#fff,color:#fff
-    style SQL fill:#373e47,stroke:#fff,color:#fff
-    style Notify fill:#373e47,stroke:#fff,color:#fff
-    style SubWF1 fill:#373e47,stroke:#fff,color:#fff
-    style SubWF2 fill:#373e47,stroke:#fff,color:#fff
-    style SubWF4 fill:#373e47,stroke:#fff,color:#fff
+    
+    %% 样式美化（可选，删了也不影响流程）
+    style MasterWorkflow fill:#f5f5f5,stroke:#333,stroke-width:2px
+    style Switch fill:#e1f5fe,stroke:#0288d1
+    style Wait fill:#f3e5f5,stroke:#8e24aa
+    style SQL fill:#e8f5e8,stroke:#2e7d32
+    style Notify fill:#fff3e0,stroke:#f57c00
 ```
 
 
