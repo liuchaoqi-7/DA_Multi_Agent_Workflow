@@ -994,7 +994,7 @@ flowchart TD
 > 💡 **API 采集子工作流截图**：
 ![微信API采集子工作流](docs/images/sub-workflow_WEIXIN.png)
 ![千川API采集子工作流](docs/images/sub-workflow_qc.png)
-![飞书同步逻辑子工作流](docs/images/sub-workflow_SYNCfeishu.png)
+
 #### Sub-Workflow 2: 爬虫数据采集
 
 | 节点 | 命令 | 超时 | 执行策略 |
@@ -1022,6 +1022,9 @@ done
 | 达人维度同步 | `sync_order_kol.py` | MySQL→飞书 | 并行 |
 | 商品维度同步 | `sync_order_product.py` | MySQL→飞书 | 并行 |
 | 达人榜单同步 | `sync_rank_kol.py` | MySQL→飞书 | 并行 |
+
+> 💡 **飞书同步逻辑子工作流截图**：
+![飞书同步逻辑子工作流](docs/images/sub-workflow_SYNCfeishu.png)
 
 ### n8n Execute Command 节点配置示例
 
