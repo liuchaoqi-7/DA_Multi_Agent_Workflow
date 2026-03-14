@@ -11,13 +11,13 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Star History Chart](https://api.star-history.com/svg?repos=<YOUR_USERNAME>/n8n-Multi_Agent_Workflow&type=Date)](https://star-history.com/#<YOUR_USERNAME>/n8n-Multi_Agent_Workflow&Date)
 
-> 基于 **Python CLI 脚本 + n8n 工作流引擎** 的解耦式数据中台架构，实现多平台电商数据采集、数仓建模与飞书自动化同步。
+> **电商全域数据治理与 Multi-Agent 分析中台**：基于 **n8n + LLM** 架构，实现多源电商数据 **ETL**、规范化**数仓分层建模** (DWD/ADS) 及飞书端**智能对话查询**闭环。
 
 ---
 
 ## 🚀 项目概述 (Project Overview)
 
-本项目是一套面向传媒电商业务的全域数据中台解决方案，覆盖 **抖店、小红书、微信视频号、巨量千川、电商罗盘** 五大平台。系统采用 **"Python CLI 脚本 + n8n 工作流引擎"** 的解耦架构：
+本项目是一套面向电商业务的全域数据中台解决方案，覆盖 **抖店、小红书、微信视频号、巨量千川、电商罗盘** 五大平台。系统采用 **"Python CLI 脚本 + n8n 工作流引擎"** 的解耦架构：
 
 - **底层业务逻辑**：Python CLI 脚本实现 ETL 提取、SQL 建模、飞书同步
 - **调度编排层**：n8n 实现 Master-Sub 工作流调度，解决 Cron 绝对时间调度带来的资源竞争问题
