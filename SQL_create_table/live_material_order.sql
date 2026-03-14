@@ -1,6 +1,6 @@
 TRUNCATE TABLE ads.ads_直播素材_m分摊表;  -- 清空表（保留结构和索引）
 
-INSERT INTO ads.ads_直播素材_M分摊表
+INSERT INTO ads.ads_直播素材_M分摊表 
 SELECT
     -- 1. 直播基础信息 (类型转换确保精度)
     CAST(IFNULL(live_min.【直播M】更新时间, '') AS DATETIME) AS 【直播M】更新时间,
