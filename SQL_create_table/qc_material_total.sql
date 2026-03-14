@@ -1,5 +1,5 @@
 TRUNCATE TABLE dwd.千川_素材_汇总;
-
+ 
 insert into dwd.千川_素材_汇总
 SELECT
 --  千川UID,
