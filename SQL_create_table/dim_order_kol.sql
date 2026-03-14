@@ -2,7 +2,7 @@ CREATE TABLE dim.`dim_达人维度` (
   `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
   `UID来源` VARCHAR(50) COMMENT 'UID来源, e.g., 千川, 抖店, 爬虫',
   `达人UID` VARCHAR(100) COMMENT '达人UID',
-  `达人名称` VARCHAR(255) COMMENT '达人名称',
+  `达人名称` VARCHAR(255) COMMENT '达人名称', 
 --   `达人标签` VARCHAR(50) COMMENT '达人标签',
   `最早成交时间` DATETIME COMMENT '最早成交时间',
   `最后成交时间` DATETIME COMMENT '最后成交时间',
