@@ -959,19 +959,21 @@ flowchart TD
         SubWF2["Sub-WF 2<br/>爬虫采集 (串行)"]
         SubWF4["Sub-WF 4<br/>飞书同步 (并行)"]
         
-        %% 流程连线
+        %% 调整后的流程连线（核心修改）
         trigger --> Switch
-        Switch --> Wait
-        Wait --> SQL
-        SQL --> Notify
+        Switch --> SubWF1  %% Switch 先触发 API 采集
+        Switch --> Wait     %% Switch 同时触发等待节点
+        Wait --> SubWF2     %% 等待节点后执行爬虫采集
         
-        %% 子流程分支
-        Switch --> SubWF1
-        Wait --> SubWF2
-        SQL --> SubWF4
+        %% 关键：API采集 + 爬虫采集都完成后，才执行SQL建模
+        SubWF1 --> SQL
+        SubWF2 --> SQL
+        
+        SQL --> Notify      %% SQL建模后触发通知
+        SQL --> SubWF4      %% SQL建模后执行飞书同步
     end
     
-    %% 样式美化（可选，删了也不影响流程）
+    %% 样式美化（完全保留原样式）
     style MasterWorkflow fill:#f5f5f5,stroke:#333,stroke-width:2px
     style Switch fill:#e1f5fe,stroke:#0288d1
     style Wait fill:#f3e5f5,stroke:#8e24aa
