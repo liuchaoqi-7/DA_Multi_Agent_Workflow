@@ -2,7 +2,7 @@ TRUNCATE TABLE dim.`dim_达人榜单`
 
 
 INSERT INTO dim.`dim_达人榜单`
-WITH base_stats AS (
+WITH base_stats AS ( 
     SELECT 
         `达人ID`,
         `榜单`,
