@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 
 from xiaohongshu import (
-    XiaoHongShuAPIClient,
+    XiaoHongShuAPIClient, 
     OrderService,
     AftersaleService,
     FinanceService,
