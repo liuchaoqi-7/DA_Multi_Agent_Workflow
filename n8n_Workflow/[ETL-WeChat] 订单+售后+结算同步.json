@@ -1,5 +1,5 @@
 {
-  "name": "[ETL-WeChat] 订单+售后+结算同步",
+  "name": "[ETL-WeChat] 订单+售后+结算同步", 
   "nodes": [
     {
       "parameters": {
