@@ -1,4 +1,4 @@
-CREATE TABLE dwd.`dwd_千川_素材m` (
+CREATE TABLE dwd.`dwd_千川_素材m` ( 
     `来源` VARCHAR(50),
     `千川UID` VARCHAR(100),
     `抖音UID` VARCHAR(100),
