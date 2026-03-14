@@ -1412,6 +1412,9 @@ python main.py --max_workers 20
 - 🔒 使用最小权限原则
 - 🔒 启用 n8n 基本认证
 - 🔒 定期审计访问日志
+  
+> 💡 **通过n8n凭证管理**：
+![n8n凭证](docs/images/n8n必要凭证.png)
 
 ### 3. 数据安全
 
