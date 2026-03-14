@@ -248,8 +248,8 @@ LIMIT 10
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│ Error       │────▶│ 飞书推送    │────▶│ 告警消息    │
-│ Trigger     │     │ 错误信息    │     │ 卡片        │
+│ Error       │────▶│ 飞书推送      │────▶│ 告警消息      │
+│ Trigger     │     │ 错误信息      │     │ 卡片         │
 └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
@@ -264,27 +264,44 @@ LIMIT 10
 
 ### 系统架构图
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        n8n Master Workflow                       │
-│                    (主调度器 - 解决资源竞争)                       │
-└───────────────────────────┬─────────────────────────────────────┘
-                            │
-        ┌───────────────────┼───────────────────┐
-        ▼                   ▼                   ▼
-┌───────────────┐   ┌───────────────┐   ┌───────────────┐
-│ Sub-Workflow 1│   │ Sub-Workflow 2│   │ Sub-Workflow 3│
-│   API 采集     │   │   爬虫采集     │   │   SQL 建模    │
-│  (并行执行)    │   │  (串行熔断)    │   │  (顺序执行)   │
-└───────┬───────┘   └───────┬───────┘   └───────┬───────┘
-        │                   │                   │
-        └───────────────────┼───────────────────┘
-                            ▼
-                   ┌───────────────┐
-                   │ Sub-Workflow 4│
-                   │   飞书同步     │
-                   │  (并行执行)    │
-                   └───────────────┘
+```mermaid
+flowchart TB
+    direction TB
+
+    %% 第一层：主调度器
+    subgraph MasterWorkflow["n8n Master Workflow<br/>(主调度器 - 解决资源竞争)"]
+    end
+
+    %% 第二层：API采集、爬虫采集
+    subgraph SubWF1["Sub-Workflow 1<br/>API 采集<br/>(并行执行)"]
+    end
+
+    subgraph SubWF2["Sub-Workflow 2<br/>爬虫采集<br/>(串行熔断)"]
+    end
+
+    %% 第三层：SQL 建模
+    subgraph SubWF3["Sub-Workflow 3<br/>SQL 建模<br/>(顺序执行)"]
+    end
+
+    %% 第四层：飞书同步
+    subgraph SubWF4["Sub-Workflow 4<br/>飞书同步<br/>(并行执行)"]
+    end
+
+    %% 正确层级连线
+    MasterWorkflow --> SubWF1
+    MasterWorkflow --> SubWF2
+
+    SubWF1 --> SubWF3
+    SubWF2 --> SubWF3
+
+    SubWF3 --> SubWF4
+
+    %% 统一配色（和你之前完全一致）
+    style MasterWorkflow fill:#f5f5f5,stroke:#333,stroke-width:2px
+    style SubWF1 fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
+    style SubWF2 fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    style SubWF3 fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px
+    style SubWF4 fill:#fff3e0,stroke:#f57c00,stroke-width:2px
 ```
 
 ### 数仓分层设计
@@ -612,25 +629,6 @@ quick_sync_mysql_to_feishu(
 
 本项目采用 **1 个主工作流 + 4 个子工作流** 的 Master-Sub 架构，解决传统 Cron 绝对时间调度带来的资源竞争问题：
 
-```
-┌────────────────────────────────────────────────────────────┐
-│                   Master Workflow (主调度器)                │
-│                                                            │
-│  触发方式: 每日凌晨 02:00 或手动触发                          │
-│                                                            │
-│  ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐ │
-│  │ Switch  │───▶│ Wait    │───▶│ SQL     │───▶│ Notify  │ │
-│  │ (模式)  │    │ (等待)  │    │ (建模)  │    │ (通知)  │ │
-│  └────┬────┘    └────┬────┘    └────┬────┘    └─────────┘ │
-│       │              │              │                      │
-│       ▼              ▼              ▼                      │
-│  ┌─────────┐    ┌─────────┐    ┌─────────┐               │
-│  │Sub-WF 1 │    │Sub-WF 2 │    │Sub-WF 4 │               │
-│  │API采集  │    │爬虫采集  │    │飞书同步  │               │
-│  │(并行)   │    │(串行)   │    │(并行)   │               │
-│  └─────────┘    └─────────┘    └─────────┘               │
-└────────────────────────────────────────────────────────────┘
-```
 ```mermaid
 flowchart TD
     %% 定义主容器
