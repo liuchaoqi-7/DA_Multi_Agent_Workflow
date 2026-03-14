@@ -3,7 +3,7 @@ CREATE TABLE dim.`dim_商品纬度` (
   `商品ID来源` VARCHAR(50) NOT NULL COMMENT '商品ID来源, e.g., 抖店, 供应链',
   `商品ID` VARCHAR(100) NOT NULL COMMENT '商品ID',
   `商品名称` VARCHAR(512) COMMENT '商品名称',
-  `总销量` INT COMMENT '商品销量',
+  `总销量` INT COMMENT '商品销量', 
   `总销售额` DECIMAL(18,2) COMMENT '商品销售额',
   `最早售出时间` DATETIME COMMENT '最早售出时间',
   `最后售出时间` DATETIME COMMENT '最后售出时间',
