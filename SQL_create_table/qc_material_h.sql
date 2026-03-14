@@ -1,7 +1,7 @@
 truncate table dwd.dwd_抖音_千川_素材H;
 
 INSERT INTO dwd.dwd_抖音_千川_素材H
-SELECT
+SELECT 
     t1.来源,
     t1.千川UID,
     t1.抖音UID,
