@@ -123,7 +123,8 @@
 用户提问（飞书）→ Supervisor Agent（路由分发）→ 专业 Agent 协作处理 → 飞书推送结果
 ```
 
-> 💡 **建议在此处插入一张数据分析 Agent 工作流截图**：`![数据分析Agent工作流](docs/images/data_analysis_agent.png)`
+> 💡 **数据分析 Agent 工作流截图**：
+![数据分析Agent工作流](docs/images/data_analysis_agent.png)
 
 
 ### 多智能体架构设计
@@ -976,7 +977,8 @@ flowchart TD
 ```
 
     
-> 💡 **建议在此处插入一张 n8n 主工作流调度图**：`![n8n 主工作流调度图](docs/images/master_workflow.png)`
+> 💡 **建议在此处插入一张 n8n 主工作流调度图**：
+![n8n 主工作流调度图](docs/images/master_workflow.png)
 
 ### 子工作流详解
 
