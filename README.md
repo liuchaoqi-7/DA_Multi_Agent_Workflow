@@ -705,6 +705,9 @@ python API_data_collect/qc_material/main.py \
 ### 5. 电商罗盘榜单爬虫
 
 ```bash
+# 初始化浏览器端口，持久化配置，提前登录或者准备cookie，drissionpage接管
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --user-data-dir="/Users/$(whoami)/Library/Application Support/Google/Chrome"
+
 # 达人榜单采集
 python web_crawler/luopan_rank/rank_kol.py \
     --start_time "2024-01-01" \
