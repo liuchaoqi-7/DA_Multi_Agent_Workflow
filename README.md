@@ -7,9 +7,9 @@
 [![Feishu](https://img.shields.io/badge/Feishu-Open_API-00D6B9.svg?logo=lark&logoColor=white)](https://open.feishu.cn/)
 [![Pandas](https://img.shields.io/badge/Pandas-Data_Processing-150458.svg?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
 [![Polars](https://img.shields.io/badge/Polars-Fast_Dataframe-306482.svg?logo=polars&logoColor=white)](https://pola.rs/)
-[![DrissionPage](https://img.shields.io/badge/Crawler-DrissionPage-FF6B6B.svg)]()
+[![DrissionPage](https://img.shields.io/badge/Crawler-DrissionPage-FF6B6B.svg)](https://drissionpage.cn/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Star History Chart](https://api.star-history.com/svg?repos=<YOUR_USERNAME>/n8n-Multi_Agent_Workflow&type=Date)](https://star-history.com/#<YOUR_USERNAME>/n8n-Multi_Agent_Workflow&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=liuchaoqi-7/DA_Multi_Agent_Workflow&type=Date)](https://star-history.com/#liuchaoqi-7/DA_Multi_Agent_Workflow&Date)
 
 > **电商全域数据治理与 Multi-Agent 分析中台**：基于 **n8n + LLM** 架构，实现多源电商数据 **ETL**、规范化**数仓分层建模** (DWD/ADS) 及飞书端**智能对话查询**闭环。
 
@@ -1295,7 +1295,7 @@ syncer.sync(full_sync=False)  # 增量同步
 
 ```bash
 # 克隆项目
-git clone https://github.com/<YOUR_USERNAME>/n8n-Multi_Agent_Workflow.git
+git clone https://github.com/liuchaoqi-7/DA_Multi_Agent_Workflow.git
 cd n8n-Multi_Agent_Workflow
 
 # 安装 Python 依赖
@@ -1427,7 +1427,7 @@ python main.py --max_workers 20
 
 ## 📝 更新日志 (Changelog)
 
-### v2.0.0 (2024-03)
+### v2.0.0 (2026-03)
 - ✨ 重构为模块化架构
 - ✨ 支持 n8n 工作流编排
 - ✨ 新增飞书同步模块
@@ -1459,5 +1459,12 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 5. 开启 Pull Request
 
 ---
+
+## 👨‍💻 关于作者 (About Author)
+
+**刘朝齐 (Data Analyst / AI Agent Developer)**
+* 📧 Email: Icq2312437922@gmail.com
+* 💬 专注领域：全域电商数据治理 / ETL 数据工程 / Multi-Agent 智能体架构落地
+* 🎯 **目前正在寻找 上海/杭州 地区的数据分析师/数据工程师机会，欢迎随时联系！**
 
 > **注意**：本项目仅供学习交流使用，请勿用于商业用途。使用前请确保遵守各平台 API 使用规范。
