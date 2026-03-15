@@ -1,5 +1,5 @@
 {
-  "name": "[ETL-WeChat] 订单+售后+结算同步", 
+  "name": "[ETL-WeChat] 订单+售后+结算同步",
   "nodes": [
     {
       "parameters": {
@@ -457,8 +457,8 @@
       "executeOnce": false,
       "credentials": {
         "mySql": {
-          "id": "3iKBhfCr5igWvxFr",
-          "name": "o d s"
+          "id": "YOUR_MYSQL_CREDENTIAL_ID",
+          "name": "YOUR_MYSQL_CREDENTIAL_NAME"
         }
       }
     },
@@ -483,8 +483,8 @@
       "executeOnce": false,
       "credentials": {
         "mySql": {
-          "id": "3iKBhfCr5igWvxFr",
-          "name": "o d s"
+          "id": "YOUR_MYSQL_CREDENTIAL_ID",
+          "name": "YOUR_MYSQL_CREDENTIAL_NAME"
         }
       }
     },
@@ -509,8 +509,8 @@
       "executeOnce": false,
       "credentials": {
         "mySql": {
-          "id": "3iKBhfCr5igWvxFr",
-          "name": "o d s"
+          "id": "YOUR_MYSQL_CREDENTIAL_ID",
+          "name": "YOUR_MYSQL_CREDENTIAL_NAME"
         }
       }
     },
@@ -568,7 +568,7 @@
       ],
       "id": "1476e4e6-d701-412a-ae4e-2ba04bee68d9",
       "name": "微信防限流",
-      "webhookId": "837ce29a-c550-4301-a750-8fbb897fcbca"
+      "webhookId": "YOUR_WEBHOOK_ID"
     },
     {
       "parameters": {
@@ -582,7 +582,7 @@
       ],
       "id": "77cfc097-73fc-43aa-9baf-4eba4bf1cb3d",
       "name": "微信防限流1",
-      "webhookId": "0bc84e8d-9163-476c-b361-3f0269a9220e"
+      "webhookId": "YOUR_WEBHOOK_ID"
     },
     {
       "parameters": {},
@@ -608,7 +608,7 @@
       ],
       "id": "1f241db3-b021-4619-98ef-b77557f93c76",
       "name": "微信防限流3",
-      "webhookId": "952624f5-0ac1-449a-8aee-f595180b3a12"
+      "webhookId": "YOUR_WEBHOOK_ID"
     },
     {
       "parameters": {
@@ -622,7 +622,7 @@
       ],
       "id": "5841d4f0-200a-4685-9ff5-fe47c6ab6ad8",
       "name": "微信防限流4",
-      "webhookId": "32f75519-b914-488a-bfa8-a06d2d264e53"
+      "webhookId": "YOUR_WEBHOOK_ID"
     },
     {
       "parameters": {
@@ -840,8 +840,8 @@
       "name": "Execute a SQL query",
       "credentials": {
         "mySql": {
-          "id": "3iKBhfCr5igWvxFr",
-          "name": "o d s"
+          "id": "YOUR_MYSQL_CREDENTIAL_ID",
+          "name": "YOUR_MYSQL_CREDENTIAL_NAME"
         }
       }
     },
@@ -1341,11 +1341,11 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "c040c378-7132-4517-912b-e5a4b35dbbed",
+  "versionId": "YOUR_VERSION_ID",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "4b9303c6c8a2eec511b651c17635d4281c370f70a0983d8940cfac69c6d627a3"
+    "instanceId": "YOUR_INSTANCE_ID"
   },
-  "id": "wjIBgKtKM3LXEXYL",
+  "id": "YOUR_WORKFLOW_ID",
   "tags": []
 }
