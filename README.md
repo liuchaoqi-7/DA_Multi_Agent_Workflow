@@ -524,10 +524,17 @@ n8n-Multi_Agent_Workflow/
 │       ├── material_rank.py       # 抖音视频批量分析（Whisper+千问）
 │       └── run_single_video.py    # 单条视频处理（n8n 调用入口）
 │
+├── chrome_port/               # 浏览器持久化配置
+│   ├── port_9222/             # 接管浏览器9222端口
+│   ├── ·········
+│   └── port_9227/             # 接管9227端口
+│
 ├── SQL_create_table/          # SQL 建表脚本
-│   ├── order_total.sql        # DWD 宽表建表语句
-│   ├── dim_order_kol.sql      # 达人维度表
-│   ├── dim_order_product.sql  # 商品维度表
+│   ├── order_total.sql        # DWD 电商订单数据 DDL + 更新语句
+│   ├── order_total.sql        # DWD 千川投放数据 DDL + 更新语句
+│   ├── ·········
+│   ├── dim_order_kol.sql      # 达人维度表 DDL + 更新语句
+│   ├── dim_order_product.sql  # 商品维度表 DDL + 更新语句
 │   └── dim_Metadata&Dictionary.sql  # 🌟 全域数据字典表
 │
 ├── mysql_syn_feishu/          # 飞书同步模块
@@ -537,23 +544,28 @@ n8n-Multi_Agent_Workflow/
 │   └── feishu_sync/           # 飞书 SDK 封装
 │
 ├── docs/
-├── images/
-│   ├── master_workflow.png      # n8n 主工作流截图
-│   ├── api_workflow.png         # API 采集子工作流截图
-│   ├── data_analysis_agent.png  # 数据分析 Agent 截图
-│   └── demo.gif                 # 演示动图
+│   └── images/
+│       ├── master_workflow.png      # n8n 主工作流截图
+│       ├── sub_workflow_qc.png      # API 采集子工作流截图
+│       ├── data_analysis_agent.png  # 数据分析 Agent 截图
+│       ├── agent使用示例.png          # 数据分析 Agent 使用示例截图
+│       └── n8n必要凭证.               # n8n凭证管理截图
 |
-├── architecture.md              # 详细架构设计文档
-└── deployment.md                # 详细部署文档
 ├── n8n_Workflow/              # n8n 工作流 JSON
 │   ├── 数据中台 - 完整ETL工作流Agent.json   # 主ETL工作流
 │   ├── 数据分析Agent.json                 # 🤖 AI数据分析Agent（Text-to-SQL）
 │   ├── [ETL-WeChat] 订单+售后+结算同步.json
 │   └── [MySQL-Feishu] 通用Sync逻辑.json
 │
-└── n8n_setting/               # n8n Docker 部署配置
-    ├── docker-compose.yml
-    └── Dockerfile
+├── n8n_setting/               # n8n Docker 部署配置
+│   ├── docker-compose.yml
+│   └── Dockerfile
+│
+├── README.md
+├── LICENSE
+├── .gitignore
+├── .env.example
+└── requirements.txt  # 环境配置文件
 ```
 
 ---
@@ -754,7 +766,7 @@ python web_crawler/material_ASR/material_rank.py
 每个平台的数据采集模块都采用模块化设计：
 
 ```
-平台模块/
+抖店平台模块/
 ├── __init__.py           # 模块导出
 ├── config.py             # 配置和映射字典
 ├── utils.py              # 工具函数
@@ -779,6 +791,7 @@ python web_crawler/material_ASR/material_rank.py
 ```
 web_crawler/
 ├── luopan_rank/          # 罗盘榜单爬虫
+├── material_ASR/         # 视频解析爬虫
 ├── JS_a_bogus/           # 签名算法（JS）
 ├── server.py             # RPC签名服务
 └── hook.py               # 浏览器Hook
