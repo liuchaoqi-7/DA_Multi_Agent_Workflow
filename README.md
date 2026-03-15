@@ -1138,7 +1138,7 @@ done
 
 | 节点名称 | 节点类型 | 执行命令 | 超时 |
 |----------|----------|----------|------|
-| `执行SQL建表` | `n8n-nodes-base.executeCommand` | `for f in *.sql; do mysql ... < "$f"; done` | 1800s |
+| `执行SQL更新` | `n8n-nodes-base.executeCommand` | `for f in *.sql; do mysql ... < "$f"; done` | 1800s |
 
 #### 飞书同步子工作流节点映射
 
@@ -1165,9 +1165,14 @@ done
 | `Direct Reply Agent` | `@n8n/n8n-nodes-langchain.agent` | 💬 直接回复 Agent | 处理寒暄、非数据问题 |
 | `分离文本和图表` | `n8n-nodes-base.code` | 解析 AI 输出 | 提取 Markdown/JSON/Excel |
 | `图片生成判断` | `n8n-nodes-base.if` | 判断是否需要生成图表 | `hasChart == true` |
+| `获取飞书授权Token` | `n8n-nodes-feishu-lite.feishuNode` | 获取上传文件必须的Token | 准备飞书应用凭证 |
 | `生成图片` | `n8n-nodes-base.httpRequest` | 调用 QuickChart API | `url: https://quickchart.io/chart` |
 | `上传图片` | `n8n-nodes-base.httpRequest` | 上传图片到飞书 | `url: https://open.feishu.cn/open-apis/im/v1/images` |
 | `飞书推送数据分析结果` | `n8n-nodes-feishu-lite.feishuNode` | 推送消息卡片 | `msg_type: interactive` |
+| `表格生成判断` | `n8n-nodes-base.if` | 判断是否需要生成表格 | `hasExcel == true` |
+| `生成表格` | `n8n-nodes-base.Convert-to-File` | 转换Excel文件 | `Operation == Convert to XLSX` |
+| `上传表格` | `n8n-nodes-base.httpRequest` | 上传文件到飞书 | `url: https://open.feishu.cn/open-apis/im/v1/files` |
+| `飞书推送表格生成结果` | `n8n-nodes-feishu-lite.feishuNode` | 推送Excel文件 | `msg_type: interactive` |
 | `错误兜底` | `n8n-nodes-base.errorTrigger` | 错误触发器 | - |
 | `飞书推送错误信息` | `n8n-nodes-feishu-lite.feishuNode` | 推送告警卡片 | `template: red` |
 
@@ -1271,7 +1276,7 @@ syncer.sync(full_sync=False)  # 增量同步
 | **AI/LLM** | LangChain, Qwen (通义千问) | 智能数据分析、Text-to-SQL |
 | **数据库** | MySQL 8.0 | 数仓分层存储 |
 | **爬虫框架** | DrissionPage | 浏览器自动化 |
-| **数据处理** | Pandas, SQLAlchemy | ETL 数据处理 |
+| **数据处理** | Pandas, Polars, SQLAlchemy | ETL 数据处理 |
 | **大模型** | Whisper (ASR), Qwen | 素材智能诊断 |
 | **可视化** | QuickChart API | 动态图表生成 |
 | **协作平台** | 飞书多维表/机器人 | 数据可视化与协作 |
@@ -1288,8 +1293,8 @@ syncer.sync(full_sync=False)  # 增量同步
 | Python | 3.9+ | 核心业务逻辑 |
 | Docker | 20.10+ | n8n 容器化部署 |
 | Docker Compose | 2.0+ | 容器编排 |
-| MySQL | 5.7+ / 8.0 | 数仓存储 |
-| Node.js | 16+ | 可选，用于签名服务 |
+| MySQL | 8.0+ | 数仓存储 |
+| Node.js | 20+ | 可选，用于签名服务 |
 
 ### 安装依赖
 
