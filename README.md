@@ -16,10 +16,9 @@
 
 [![Feishu](https://img.shields.io/badge/Feishu-Open_API-00D6B9.svg?logo=lark&logoColor=white)](https://open.feishu.cn/)
 [![Chart.js](https://img.shields.io/badge/Chart.js-Visualization-FF6384.svg?logo=chartdotjs&logoColor=white)](https://www.chartjs.org/)
-[![Excel](https://img.shields.io/badge/Excel-Export-217346.svg?logo=microsoftexcel&logoColor=white)](https://www.microsoft.com/)
 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
- [![Star History Chart](https://api.star-history.com/svg?repos=liuchaoqi-7/DA_Multi_Agent_Workflow&type=Date)](https://star-history.com/#liuchaoqi-7/DA_Multi_Agent_Workflow&Date) 
+
 
 > **电商全域数据治理与 Multi-Agent 分析中台**：基于 **n8n + LLM** 架构，实现多源电商数据 **ETL**、规范化**数仓分层建模** (DWD/ADS) 及飞书端**智能对话查询**闭环。
 
