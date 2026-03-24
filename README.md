@@ -148,7 +148,7 @@
 ```
 
 > 💡 **数据分析 Agent 工作流截图**：
-![数据分析Agent工作流](docs/images/data_analysis_agent.png)
+![数据分析Agent工作流](docs/images/agent流程图.png)
 
 
 ### 多智能体架构设计
