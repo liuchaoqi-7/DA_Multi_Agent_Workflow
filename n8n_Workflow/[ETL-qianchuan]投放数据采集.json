@@ -8,13 +8,13 @@
             {
               "id": "dd124f1a-bcad-4ab3-ba6b-12f92b09fb7c",
               "name": "app_id",
-              "value": "",
+              "value": "={{ $env.QIANCHUAN_APP_ID }}",
               "type": "string"
             },
             {
               "id": "0f002b25-a0bb-47e1-a0c6-1e7e880910cb",
               "name": "secret",
-              "value": "",
+              "value": "={{ $env.QIANCHUAN_APP_SECRET }}",
               "type": "string"
             },
             {
@@ -63,7 +63,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"app_id\": ,\n  \"secret\": \"\",\n  \"refresh_token\": \"{{ $json.refresh_token }}\"\n}\n",
+        "jsonBody": "={{ JSON.stringify({ app_id: $env.QIANCHUAN_APP_ID, secret: $env.QIANCHUAN_APP_SECRET, refresh_token: $json.refresh_token }) }}",
         "options": {
           "response": {
             "response": {
