@@ -344,13 +344,13 @@
             {
               "id": "dd124f1a-bcad-4ab3-ba6b-12f92b09fb7c",
               "name": "app_id",
-              "value": "1839534117097475",
+              "value": "={{ $env.QIANCHUAN_APP_ID }}",
               "type": "string"
             },
             {
               "id": "0f002b25-a0bb-47e1-a0c6-1e7e880910cb",
               "name": "secret",
-              "value": "8dc62f034eabffb2b2c746918fdc5f600ab78371",
+              "value": "={{ $env.QIANCHUAN_APP_SECRET }}",
               "type": "string"
             },
             {
@@ -399,7 +399,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"app_id\": 1839534117097475,\n  \"secret\": \"8dc62f034eabffb2b2c746918fdc5f600ab78371\",\n  \"refresh_token\": \"{{ $json.refresh_token }}\"\n}\n",
+        "jsonBody": "={{ JSON.stringify({ app_id: $env.QIANCHUAN_APP_ID, secret: $env.QIANCHUAN_APP_SECRET, refresh_token: $json.refresh_token }) }}",
         "options": {
           "response": {
             "response": {
@@ -993,13 +993,13 @@
             {
               "id": "dd124f1a-bcad-4ab3-ba6b-12f92b09fb7c",
               "name": "app_id",
-              "value": "1839534117097475",
+              "value": "={{ $env.QIANCHUAN_APP_ID }}",
               "type": "string"
             },
             {
               "id": "0f002b25-a0bb-47e1-a0c6-1e7e880910cb",
               "name": "secret",
-              "value": "8dc62f034eabffb2b2c746918fdc5f600ab78371",
+              "value": "={{ $env.QIANCHUAN_APP_SECRET }}",
               "type": "string"
             },
             {
@@ -1048,7 +1048,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"app_id\": 1839534117097475,\n  \"secret\": \"8dc62f034eabffb2b2c746918fdc5f600ab78371\",\n  \"refresh_token\": \"{{ $json.refresh_token }}\"\n}\n",
+        "jsonBody": "={{ JSON.stringify({ app_id: $env.QIANCHUAN_APP_ID, secret: $env.QIANCHUAN_APP_SECRET, refresh_token: $json.refresh_token }) }}",
         "options": {
           "response": {
             "response": {
@@ -3267,13 +3267,13 @@
             {
               "id": "dd124f1a-bcad-4ab3-ba6b-12f92b09fb7c",
               "name": "appid",
-              "value": "wx83c35490331b1fcc",
+              "value": "={{ $env.WEIXIN_APP_ID }}",
               "type": "string"
             },
             {
               "id": "0f002b25-a0bb-47e1-a0c6-1e7e880910cb",
               "name": "secret",
-              "value": "1a6ac12ef4cce2472972266ffb6eb089",
+              "value": "={{ $env.WEIXIN_APP_SECRET }}",
               "type": "string"
             },
             {
